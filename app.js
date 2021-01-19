@@ -69,7 +69,7 @@ document.querySelector(".btn-roll").addEventListener('click', function () {
                 switchToNextPlayer();
             }
       } else {
-            alert("Togloom duussan bna New game tovchiig darj shineer ehluulne uu!!!");
+            alert("The game is finished!!!");
       }
 });
 
@@ -96,7 +96,7 @@ document.querySelector(".btn-hold").addEventListener("click", function() {
            switchToNextPlayer();
      }
      } else {
-            alert("Togloom duussan bna");
+            alert("The game is finished!!!");
      }
 });
 
