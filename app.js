@@ -1,3 +1,6 @@
+//togloom duussan esehiig hadgalah tulviin huvosagch
+var isNewGame;
+
 // togloomiin buh gazar ashilglagdah huvisagchuudiig hadgalya
 var activePlayer;
 var scores;
@@ -10,6 +13,9 @@ var diceDom = document.querySelector(".dice");
 initGame();
 
 function initGame() {
+      // togloom ehellee gesn tuluvt oruulna
+      isNewGame = true;
+
       // toglogchiin eeljiig hadgalah huvisagch, 1r toglogchiig 0, 2r toglogchiig 1 gej temdegleye.
       activePlayer = 0;
 
@@ -43,43 +49,55 @@ function initGame() {
 
 // roll btn-ii event listener. shoog ali talaaraa buusniig hadgalah huvisagch heregtei 1-6 gesn sanamsarguigeer huvisagchid ni hadgalj ugnu. shoog shideh eventlistener.
 document.querySelector(".btn-roll").addEventListener('click', function () {
-      var diceNumber = Math.floor(Math.random() * 6) + 1;
-      //alert(" shoo shidegdlee : " + diceNumber);
-
-      // zurgiig block bolgoj haragduulna
-      diceDom.style.display = "block";
-
-      //1-6 sanamsargui toonii hargalzah shoog img iin src-d hargalzuulj ugch bna
-      diceDom.src = "dice-" + diceNumber + ".png";
-
-      //buusan too ni 1s yalgaatai uyed idevhitei toglogchiin eeljiin onoog  nemeduulne.
-      if(diceNumber !== 1) {
-            //1s yalgaatai too buulaa
-            roundScore = roundScore + diceNumber;
-            document.getElementById("current-" + activePlayer).textContent = roundScore;
+      if(isNewGame) {
+            var diceNumber = Math.floor(Math.random() * 6) + 1;
+            //alert(" shoo shidegdlee : " + diceNumber);
+      
+            // zurgiig block bolgoj haragduulna
+            diceDom.style.display = "block";
+      
+            //1-6 sanamsargui toonii hargalzah shoog img iin src-d hargalzuulj ugch bna
+            diceDom.src = "dice-" + diceNumber + ".png";
+      
+            //buusan too ni 1s yalgaatai uyed idevhitei toglogchiin eeljiin onoog  nemeduulne.
+            if(diceNumber !== 1) {
+                  //1s yalgaatai too buulaa
+                  roundScore = roundScore + diceNumber;
+                  document.getElementById("current-" + activePlayer).textContent = roundScore;
+            } else {
+                  // 1 buusan tul toglogchiin eeljiig solij ugnu. onoog ni 0 bolgono
+                switchToNextPlayer();
+            }
       } else {
-            // 1 buusan tul toglogchiin eeljiig solij ugnu. onoog ni 0 bolgono
-          switchToNextPlayer();
+            alert("Togloom duussan bna New game tovchiig darj shineer ehluulne uu!!!");
       }
 });
 
 //hold buttonii event listener
 document.querySelector(".btn-hold").addEventListener("click", function() {
-      //ug toglogchiin tsugluulsan onoog global onoon dr nemj ugnu
+     if(isNewGame) {
+            //ug toglogchiin tsugluulsan onoog global onoon dr nemj ugnu
       scores[activePlayer] = scores[activePlayer] + roundScore;
 
-       // delgetsen deerhi onoog ni uurchlunu
-       document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+      // delgetsen deerhi onoog ni uurchlunu
+      document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 
-      //ug toglogch hojson esehiig shalgah
-      if(scores[activePlayer] >= 100) {
-            document.getElementById('name-' + activePlayer).textContent = " Winner !!!" ;
-            document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
-            document.querySelector(".player-" + activePlayer + "-panel").classList.remove("active");
-      } else {
-            //toglogchiin eeljiig solih
-            switchToNextPlayer();
-      }
+     //ug toglogch hojson esehiig shalgah
+     if(scores[activePlayer] >= 100) {
+           //togloomiig duussan tuluvt oruulna
+           isNewGame = false;
+
+           //yalagch gesn textiig nerniih ni orond gargana
+           document.getElementById('name-' + activePlayer).textContent = " Winner !!!" ;
+           document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
+           document.querySelector(".player-" + activePlayer + "-panel").classList.remove("active");
+     } else {
+           //toglogchiin eeljiig solih
+           switchToNextPlayer();
+     }
+     } else {
+            alert("Togloom duussan bna");
+     }
 });
 
 //shine togloom ehluuleh tovchnii event listener
